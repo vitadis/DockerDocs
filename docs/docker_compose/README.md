@@ -17,7 +17,7 @@ Documentación sobre Docker Compose, herramienta para definir y gestionar aplica
 ### Referencia
 - [Comandos](comandos.md)
 
-### Ejercicio
+### Ejercicios
 - [Ejercicios practicos](ejercicios-practicos.md)
 
 ## Recursos oficiales
