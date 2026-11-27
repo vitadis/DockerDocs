@@ -57,7 +57,7 @@ services:
   web:
     image: nginx:latest
 ```
-> NOTA: 
+> `NOTA:`
 > Aquí puedes consultar las imágenes oficiales de Docker:
 > https://hub.docker.com/search?badges=official
 En este ejemplo utilizamos la imagen de Nginx para crear el contenedor del servicio `web`.
