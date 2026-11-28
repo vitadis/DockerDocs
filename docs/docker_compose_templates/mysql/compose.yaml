@@ -1,0 +1,18 @@
+
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: mysql_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8888:3306" # Da igual el número de puerto, mientras no este usando otro servicio
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
