@@ -81,3 +81,20 @@ Su contenido puede variar en función de la versión de Docker Desktop y de los 
 Permite acceder a la información de la cuenta de Docker utilizada en Docker Desktop.
 
 Desde este apartado se pueden consultar opciones relacionadas con la sesión, la cuenta y la gestión del perfil.
+
+---
+
+## 4. Fuentes y documentación
+
+La información de esta guía se ha obtenido principalmente de la documentación oficial de Docker.
+
+1. [Docker Desktop – Explore Docker Desktop](https://docs.docker.com/desktop/use-desktop/)
+2. [Docker Desktop – Información general](https://docs.docker.com/desktop/)
+3. [Docker – Containers](https://docs.docker.com/desktop/use-desktop/container/)
+4. [Docker – Images](https://docs.docker.com/desktop/use-desktop/images/)
+5. [Docker – Settings](https://docs.docker.com/desktop/settings-and-maintenance/settings/)
+6. [Docker – Extensions](https://docs.docker.com/desktop/features/extensions/)
+7. [Docker – MCP Toolkit](https://docs.docker.com/ai/mcp-catalog-and-toolkit/)
+8. [Docker – Gordon](https://docs.docker.com/desktop/features/gordon/)
+
+> **NOTA:** La interfaz y las funcionalidades disponibles pueden variar dependiendo de la versión de Docker Desktop instalada.
