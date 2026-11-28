@@ -1,35 +1,50 @@
-# Ejercicios prácticos de Docker
+# Ejercicios prácticos de Docker Compose
 
-**Objetivo:** consolidar los conocimientos de Docker mediante 10 ejercicios prácticos, desde la gestión básica de contenedores hasta la creación de aplicaciones multicontenedor con Docker Compose.
+**Objetivo:** consolidar los conocimientos de Docker Compose mediante 10 ejercicios prácticos, desde la definición de servicios básicos hasta el despliegue y administración de aplicaciones multicontenedor.
+
+Todos los ejercicios deberán realizarse utilizando Docker Compose y el archivo `compose.yaml` como herramienta principal de configuración y gestión.
 
 ---
 
-# Nivel 1 — Fundamentos
+# Nivel 1 — Fundamentos de Docker Compose
 
 *Dificultad: Fácil*
 
-## Ejercicio 1. Primer contenedor
+## Ejercicio 1. Primer servicio con Compose
 
-1. Descarga la imagen `nginx` desde Docker Hub.
-2. Comprueba que se ha descargado correctamente.
-3. Crea un contenedor llamado `mi_servidor`.
-4. Ejecuta el contenedor en segundo plano.
-5. Comprueba que está en ejecución.
-6. Consulta sus registros.
-7. Detén el contenedor.
-8. Vuelve a iniciarlo y finalmente elimínalo.
+Crea tu primer proyecto utilizando Docker Compose.
 
-**Conceptos:** imágenes, contenedores y comandos básicos.
+**Requisitos:**
 
-## Ejercicio 2. Servidor web con puertos
+1. Crea un directorio llamado `primer-proyecto`.
+2. Dentro, crea un archivo `compose.yaml`.
+3. Define un servicio llamado `web` utilizando la imagen `nginx`.
+4. Configura el servicio para que se ejecute en segundo plano.
+5. Inicia el servicio utilizando `docker compose up -d`.
+6. Comprueba el estado de los servicios.
+7. Consulta los registros del servicio.
+8. Detén los servicios.
+9. Elimina la infraestructura del proyecto.
 
-1. Ejecuta un contenedor Nginx llamado `servidor_web`.
-2. Publica el puerto 80 del contenedor en el puerto 8080 de tu equipo.
-3. Accede desde el navegador a `http://localhost:8080`.
-4. Comprueba qué puertos tiene publicados el contenedor.
-5. Detén y elimina el contenedor.
+**Conceptos:** `services`, `image`, `docker compose up`, `ps`, `logs` y `down`.
 
-**Conceptos:** publicación de puertos, `-p`, `inspect` y comunicación entre host y contenedor.
+## Ejercicio 2. Publicación de puertos y configuración de servicios
+
+Crea un servidor web accesible desde tu equipo anfitrión.
+
+**Requisitos:**
+
+1. Crea un proyecto llamado `servidor-web`.
+2. Define un servicio llamado `nginx`.
+3. Utiliza la imagen oficial `nginx`.
+4. Publica el puerto 80 del contenedor en el puerto 8080 de tu equipo.
+5. Configura el nombre del contenedor mediante `container_name`.
+6. Inicia el proyecto en segundo plano.
+7. Accede desde el navegador a `http://localhost:8080`.
+8. Consulta la configuración resultante mediante `docker compose config`.
+9. Detén y elimina el proyecto.
+
+**Conceptos:** `ports`, `container_name`, `docker compose config` y publicación de puertos.
 
 ---
 
@@ -39,136 +54,193 @@
 
 ## Ejercicio 3. Variables de entorno
 
-1. Ejecuta un contenedor MySQL 8.
-2. Configura la contraseña del usuario root mediante una variable de entorno.
-3. Crea una base de datos llamada `tienda`.
-4. Comprueba que las variables se han configurado correctamente.
-5. Consulta los registros del contenedor.
-6. Accede al contenedor y comprueba que MySQL está funcionando.
+Despliega una base de datos MySQL utilizando variables de entorno.
 
-**Conceptos:** variables de entorno, `-e`, `exec` y `logs`.
+**Requisitos:**
 
-## Ejercicio 4. Persistencia de datos mediante volúmenes
+1. Crea un proyecto llamado `mysql-compose`.
+2. Define un servicio llamado `db`.
+3. Utiliza la imagen `mysql:8.0`.
+4. Configura las siguientes variables de entorno:
+   - `MYSQL_ROOT_PASSWORD`
+   - `MYSQL_DATABASE`
+   - `MYSQL_USER`
+   - `MYSQL_PASSWORD`
+5. Configura una base de datos llamada `tienda`.
+6. Publica el puerto 3306 del contenedor en el puerto 3307 del equipo.
+7. Inicia el servicio.
+8. Consulta los registros de inicialización de MySQL.
+9. Comprueba que las variables se han aplicado correctamente.
+10. Detén y elimina el proyecto.
 
-1. Crea un volumen llamado `datos_mysql`.
-2. Ejecuta un contenedor MySQL utilizando ese volumen.
-3. Crea una base de datos llamada `empresa`.
-4. Crea una tabla e introduce varios registros.
-5. Detén y elimina el contenedor.
-6. Vuelve a crear otro contenedor utilizando el mismo volumen.
-7. Comprueba que la base de datos y sus registros siguen existiendo.
-8. Consulta la información del volumen.
+**Conceptos:** `environment`, variables de entorno, configuración de servicios y registros.
 
-**Conceptos:** volúmenes, persistencia de datos y ciclo de vida de los contenedores.
+## Ejercicio 4. Persistencia mediante volúmenes
 
-## Ejercicio 5. Bind mounts
+Despliega MySQL utilizando almacenamiento persistente administrado por Docker Compose.
 
-1. Crea una carpeta llamada `web` en tu equipo.
-2. Dentro de ella, crea un archivo `index.html`.
-3. Introduce un pequeño contenido HTML.
-4. Ejecuta un contenedor Nginx.
-5. Monta la carpeta `web` del equipo en `/usr/share/nginx/html` del contenedor.
-6. Accede desde el navegador al servidor web.
-7. Modifica el archivo `index.html` desde tu equipo.
-8. Actualiza el navegador y comprueba que los cambios aparecen sin recrear el contenedor.
+**Requisitos:**
 
-**Conceptos:** bind mounts, rutas del host y rutas del contenedor.
+1. Crea un proyecto llamado `mysql-volumes`.
+2. Define un servicio `db` utilizando MySQL.
+3. Declara un volumen llamado `datos_mysql`.
+4. Asocia el volumen al directorio `/var/lib/mysql`.
+5. Configura las variables de entorno necesarias.
+6. Inicia el servicio.
+7. Accede a MySQL y crea una base de datos llamada `empresa`.
+8. Crea una tabla e introduce varios registros.
+9. Detén y elimina los contenedores mediante Compose.
+10. Vuelve a iniciar el proyecto.
+11. Comprueba que la base de datos y los registros siguen existiendo.
+12. Elimina el proyecto y comprueba qué sucede con el volumen.
+13. Elimina el volumen explícitamente cuando ya no necesites los datos.
+
+**Conceptos:** `volumes`, volúmenes nombrados, persistencia y `docker compose down -v`.
+
+## Ejercicio 5. Bind mounts y sincronización de archivos
+
+Despliega un servidor Nginx cuyo contenido web se encuentre en tu equipo anfitrión.
+
+**Requisitos:**
+
+1. Crea un proyecto llamado `web-bind-mount`.
+2. Crea un directorio `web`.
+3. Dentro, crea un archivo `index.html`.
+4. Introduce contenido HTML personalizado.
+5. Define un servicio `nginx` en `compose.yaml`.
+6. Monta el directorio `web` del equipo en `/usr/share/nginx/html`.
+7. Publica el puerto 8080.
+8. Inicia el servicio.
+9. Accede desde el navegador a `http://localhost:8080`.
+10. Modifica el archivo `index.html` desde tu equipo.
+11. Comprueba que los cambios aparecen al actualizar el navegador sin recrear el contenedor.
+12. Detén y elimina el proyecto.
+
+**Conceptos:** bind mounts, `volumes`, rutas relativas y sincronización de archivos.
 
 ---
 
-# Nivel 3 — Redes y Docker Compose
+# Nivel 3 — Redes y administración multicontenedor
 
 *Dificultad: Intermedia*
 
-## Ejercicio 6. Comunicación entre contenedores
+## Ejercicio 6. Comunicación entre servicios
 
-1. Crea una red personalizada llamada `red_aplicacion`.
-2. Ejecuta dos contenedores Nginx conectados a esa red.
-3. Asigna los nombres `web1` y `web2`.
-4. Comprueba que ambos contenedores están conectados a la red.
-5. Accede desde `web1` a `web2` utilizando su nombre.
-6. Consulta la información de la red.
-7. Desconecta uno de los contenedores y comprueba que deja de pertenecer a la red.
+Crea una infraestructura formada por dos servicios Nginx conectados mediante una red personalizada.
 
-**Conceptos:** redes bridge, comunicación entre contenedores, DNS interno y comandos de redes.
+**Requisitos:**
 
-## Ejercicio 7. Primera aplicación con Docker Compose
+1. Crea un proyecto llamado `red-compose`.
+2. Define dos servicios llamados `web1` y `web2`.
+3. Utiliza la imagen `nginx` en ambos servicios.
+4. Declara una red personalizada llamada `red_aplicacion`.
+5. Conecta ambos servicios a esa red.
+6. Configura los alias de red necesarios para identificar los servicios.
+7. Inicia la infraestructura.
+8. Comprueba que ambos servicios están conectados a la red.
+9. Accede desde un servicio al otro utilizando su nombre DNS.
+10. Consulta la configuración de red mediante `docker compose config`.
+11. Detén y elimina la infraestructura.
 
-Crea una aplicación formada por dos servicios:
+**Conceptos:** `networks`, redes personalizadas, comunicación entre servicios, DNS interno y alias.
+
+## Ejercicio 7. Aplicación multicontenedor con Compose
+
+Despliega una infraestructura formada por un servidor web y una base de datos.
+
+**Servicios:**
 
 - `web`: servidor Nginx.
 - `db`: base de datos MySQL.
 
-Requisitos:
+**Requisitos:**
 
-1. Crea un directorio para el proyecto.
-2. Crea un archivo `compose.yaml`.
-3. Define los dos servicios.
-4. Configura las variables de entorno necesarias para MySQL.
-5. Publica el puerto 8080 del servicio web.
-6. Inicia los servicios en segundo plano.
-7. Comprueba que ambos contenedores están funcionando.
-8. Consulta los registros de cada servicio.
-9. Detén y elimina los servicios utilizando Docker Compose.
+1. Crea un proyecto llamado `aplicacion-compose`.
+2. Define ambos servicios en `compose.yaml`.
+3. Configura las variables de entorno necesarias para MySQL.
+4. Publica el puerto 8080 del servicio web.
+5. Declara una red personalizada llamada `red_app`.
+6. Conecta ambos servicios a la red.
+7. Configura una dependencia entre `web` y `db` mediante `depends_on`.
+8. Inicia todos los servicios.
+9. Comprueba el estado de los contenedores.
+10. Consulta los registros individualmente.
+11. Accede a la base de datos desde el servicio correspondiente.
+12. Reinicia únicamente el servicio `db`.
+13. Detén y elimina la infraestructura.
 
-**Conceptos:** servicios, `compose.yaml`, variables de entorno, puertos y comandos Compose.
+**Conceptos:** múltiples servicios, `depends_on`, redes, variables de entorno y administración individual de servicios.
 
 ---
 
-# Nivel 4 — Aplicaciones completas
+# Nivel 4 — Configuración avanzada y proyectos completos
 
 *Dificultad: Intermedia - Avanzada*
 
-## Ejercicio 8. Aplicación con persistencia y configuración externa
+## Ejercicio 8. Configuración externa mediante archivos `.env`
 
-Amplía el ejercicio anterior incorporando una configuración más completa.
+Reestructura el proyecto anterior para separar la configuración sensible de la definición de los servicios.
 
-Requisitos:
+**Requisitos:**
 
-1. Utiliza Docker Compose para gestionar los servicios.
-2. Crea un archivo `.env` con las credenciales de MySQL.
-3. Utiliza las variables del archivo `.env` dentro de `compose.yaml`.
-4. Crea un volumen llamado `datos_mysql`.
-5. Asocia el volumen al directorio de datos de MySQL.
-6. Configura una red personalizada llamada `red_app`.
-7. Conecta los servicios a esa red.
-8. Comprueba que el servicio web puede comunicarse con la base de datos utilizando su nombre.
-9. Elimina los contenedores y vuelve a iniciarlos.
-10. Comprueba que los datos de MySQL siguen existiendo.
+1. Crea un proyecto llamado `configuracion-externa`.
+2. Crea un archivo `compose.yaml`.
+3. Crea un archivo `.env`.
+4. Define las siguientes variables:
+   - `MYSQL_ROOT_PASSWORD`
+   - `MYSQL_DATABASE`
+   - `MYSQL_USER`
+   - `MYSQL_PASSWORD`
+   - `MYSQL_PORT`
+5. Utiliza las variables del archivo `.env` dentro de `compose.yaml`.
+6. Configura los puertos mediante interpolación de variables.
+7. Declara una red personalizada.
+8. Declara un volumen persistente para MySQL.
+9. Añade el archivo `.env` a `.gitignore`.
+10. Comprueba la configuración resultante mediante `docker compose config`.
+11. Inicia los servicios.
+12. Modifica una variable del archivo `.env`.
+13. Aplica los cambios necesarios y comprueba el comportamiento.
+14. Detén y elimina la infraestructura sin perder los datos persistentes.
 
-**Conceptos:** Docker Compose, `.env`, `environment`, volúmenes, redes y persistencia.
+**Conceptos:** `.env`, interpolación de variables, `environment`, `.gitignore`, `config` y persistencia.
 
-## Ejercicio 9. Crear una imagen personalizada
+## Ejercicio 9. Construcción de imágenes mediante Docker Compose
 
-Crea tu propia imagen Docker utilizando un Dockerfile.
+Crea una aplicación web utilizando una imagen personalizada construida desde un Dockerfile.
 
-Requisitos:
+**Requisitos:**
 
-1. Crea un directorio llamado `mi_imagen`.
-2. Dentro, crea un archivo `index.html` con contenido HTML.
-3. Crea un `Dockerfile` basado en la imagen `nginx`.
-4. Copia el archivo HTML al directorio web de Nginx.
-5. Construye una imagen llamada `mi_web`.
-6. Ejecuta un contenedor utilizando tu imagen.
-7. Publica el puerto 8080 del equipo anfitrión.
-8. Comprueba desde el navegador que se muestra tu página.
-9. Consulta las imágenes y contenedores creados.
+1. Crea un proyecto llamado `build-compose`.
+2. Crea un directorio `app`.
+3. Dentro, crea un `Dockerfile`.
+4. Utiliza `nginx` como imagen base.
+5. Crea un archivo `index.html` con contenido personalizado.
+6. Define un servicio llamado `web` en `compose.yaml`.
+7. Configura la construcción de la imagen mediante `build`.
+8. Establece el contexto de construcción.
+9. Configura el Dockerfile que debe utilizarse.
+10. Asigna un nombre personalizado a la imagen construida.
+11. Publica el puerto 8080.
+12. Construye e inicia el servicio mediante Compose.
+13. Modifica el contenido de la aplicación.
+14. Reconstruye la imagen y comprueba los cambios.
+15. Consulta las imágenes y servicios del proyecto.
+16. Detén y elimina la infraestructura.
 
-**Conceptos:** Dockerfile, `FROM`, `COPY`, `build`, imágenes personalizadas y contenedores.
+**Conceptos:** `build`, `context`, `dockerfile`, `image`, construcción de imágenes y reconstrucción de servicios.
 
-## Ejercicio 10. Proyecto final: aplicación multicontenedor
+## Ejercicio 10. Proyecto final: infraestructura completa de gestión de tareas
 
-Desarrolla una infraestructura completa para una aplicación de gestión de tareas.
+Desarrolla una infraestructura completa para una aplicación de gestión de tareas utilizando Docker Compose.
 
-La aplicación debe contar con tres servicios:
+La infraestructura estará formada por tres servicios:
 
-- `web`: servidor web Nginx.
+- `web`: servidor Nginx que actúa como punto de entrada.
 - `app`: aplicación propia construida mediante un Dockerfile.
 - `db`: base de datos MySQL.
 
-### Requisitos
-
-**1. Estructura del proyecto**
+### 1. Estructura del proyecto
 
 Organiza el proyecto de la siguiente manera:
 
@@ -177,69 +249,91 @@ gestion-tareas/
 ├── compose.yaml
 ├── .env
 ├── .gitignore
+├── README.md
+│
 ├── app/
 │   ├── Dockerfile
 │   └── archivos de la aplicación
+│
 └── web/
+    ├── default.conf
     └── index.html
 ```
 
-**2. Servicios**
+### 2. Configuración de servicios
 
 - Define los tres servicios en `compose.yaml`.
 - Utiliza imágenes oficiales cuando corresponda.
-- Construye la imagen del servicio `app` mediante un Dockerfile.
-- Configura las dependencias entre servicios.
+- Construye la imagen de `app` mediante un Dockerfile.
+- Configura los puertos necesarios.
+- Establece las dependencias entre servicios.
+- Configura las políticas de reinicio de los servicios.
 
-**3. Redes**
+### 3. Configuración de redes
 
-- Crea una red personalizada llamada `red_tareas`.
-- Conecta los tres servicios a ella.
-- Permite que la aplicación se comunique con MySQL utilizando el nombre del servicio.
+- Declara una red personalizada llamada `red_tareas`.
+- Conecta los tres servicios a dicha red.
+- Permite que `app` se comunique con `db` utilizando el nombre del servicio.
+- Evita publicar innecesariamente el puerto de MySQL en el equipo anfitrión.
 
-**4. Volúmenes**
+### 4. Persistencia de datos
 
-- Crea un volumen llamado `datos_tareas`.
-- Utilízalo para conservar la información de MySQL.
-- Comprueba que los datos sobreviven a la eliminación de los contenedores.
+- Declara un volumen llamado `datos_tareas`.
+- Asocia el volumen al directorio de datos de MySQL.
+- Comprueba que la información persiste después de eliminar los contenedores.
+- Evita eliminar accidentalmente los datos al detener la infraestructura.
 
-**5. Variables de entorno**
+### 5. Variables de entorno
 
-- Configura las credenciales de MySQL mediante un archivo `.env`.
-- Evita escribir directamente las contraseñas en `compose.yaml`.
+- Crea un archivo `.env`.
+- Configura las credenciales de MySQL.
+- Utiliza interpolación de variables en `compose.yaml`.
 - Añade `.env` a `.gitignore`.
+- Evita introducir credenciales directamente en el archivo Compose.
 
-**6. Gestión de la infraestructura**
+### 6. Administración de la infraestructura
 
-- Construye las imágenes necesarias.
-- Inicia todos los servicios.
-- Comprueba su estado.
-- Consulta los registros.
-- Accede a los contenedores.
-- Reinicia los servicios.
-- Detén y elimina la infraestructura sin perder los datos persistentes.
+Realiza las siguientes operaciones utilizando exclusivamente Docker Compose:
 
-**7. Documentación**
+- Validar la configuración.
+- Construir las imágenes.
+- Iniciar todos los servicios.
+- Consultar el estado de los servicios.
+- Consultar los registros.
+- Acceder a los contenedores.
+- Reiniciar servicios individualmente.
+- Detener servicios.
+- Reconstruir imágenes después de modificar el Dockerfile.
+- Eliminar la infraestructura conservando los volúmenes.
+- Volver a desplegar la aplicación.
 
-Crea un `README.md` que explique:
+### 7. Documentación
 
-- La finalidad del proyecto.
-- La función de cada servicio.
-- La estructura de directorios.
-- Cómo iniciar y detener la aplicación.
-- Cómo se gestionan las redes y los volúmenes.
+Crea un archivo `README.md` que incluya:
 
-**Conceptos:** Dockerfile, imágenes personalizadas, servicios, Compose, redes, volúmenes, variables de entorno y administración de contenedores.
+- Finalidad del proyecto.
+- Función de cada servicio.
+- Estructura de directorios.
+- Tecnologías utilizadas.
+- Configuración de las variables de entorno.
+- Funcionamiento de las redes.
+- Gestión de los volúmenes.
+- Instrucciones para iniciar y detener la infraestructura.
+- Procedimiento para reconstruir las imágenes.
+
+**Conceptos:** Docker Compose, servicios, Dockerfile, build, redes, volúmenes, variables de entorno, dependencias, políticas de reinicio y administración de aplicaciones multicontenedor.
 
 ---
 
 # Recomendaciones
 
 - Completa los ejercicios en orden.
-- Intenta resolver cada apartado sin consultar soluciones.
-- Comprueba el resultado de cada comando antes de continuar.
-- Utiliza `docker inspect`, `docker logs` y `docker compose config` cuando necesites diagnosticar problemas.
+- Utiliza exclusivamente Docker Compose para administrar los recursos de los ejercicios.
+- Intenta resolver cada ejercicio sin consultar soluciones.
+- Comprueba la configuración mediante `docker compose config`.
+- Utiliza `docker compose ps` y `docker compose logs` para diagnosticar problemas.
 - No elimines volúmenes sin comprobar antes qué datos contienen.
-- Guarda los archivos de configuración y las soluciones en tu repositorio de apuntes.
+- Guarda los archivos `compose.yaml`, `.env.example`, Dockerfiles y demás configuraciones en tu repositorio.
+- Documenta los problemas encontrados y cómo los has solucionado.
 
-**Objetivo final:** ser capaz de construir, configurar, ejecutar y administrar una aplicación multicontenedor utilizando Docker y Docker Compose.
+**Objetivo final:** ser capaz de definir, construir, desplegar, configurar y administrar infraestructuras multicontenedor utilizando Docker Compose.
